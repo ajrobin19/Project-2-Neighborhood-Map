@@ -9,26 +9,11 @@ hr {
     border: none;
 }
 
-.topMenuBar{
-  width: 100px;
-  background-color: blue;
-}
-
-.hamburgerButton{
-  position: absolute;
-  right:10px;
-  background-color: black;
-}
-
 .hamburger{
 	width: 35px;
-  height: 5px;
-  background-color: white;
-  margin: 6px 0;
-}
-
-.filter{
-
+    height: 5px;
+    background-color: white;
+    margin: 6px 0;
 }
 
 #map {
@@ -42,13 +27,13 @@ hr {
 
 #menu{
 	background: black;
-  position: relative;
-  width: 20vw;
+    position: relative;
+    justify-content: right;
 }
 
 #menuContainter {
-	width: 100%;
-	height: calc(100vh - 40px);
+	width: 20vw;
+	height: calc(100vh - 75px);
 	background: black;
 	border-radius: 3px;
 	line-height: 35px;
@@ -56,10 +41,6 @@ hr {
 	color: #D0D7D9;
 	text-align: left;
 	overflow-y: auto;
-}
-
-#menuList{
-
 }
 
 /* Optional: Makes the sample page fill the window. */
