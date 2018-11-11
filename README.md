@@ -16,3 +16,13 @@ At the top of the sidebar is a filter option, in which the user can filter the r
 
 ## Yelp API
 The application utilizes the Yelp API to gain information about the restaurant. This information used is used in the info windows that appear when the marker or list item is clicked.
+
+## Service Worker
+The service worker works in production mode. To get to production mode follow the steps below
+
+Run the following on the commmand line:
+* npm run build
+* serve -s build
+
+And then visit:
+* localhost:5000

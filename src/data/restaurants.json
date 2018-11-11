@@ -1,6 +1,6 @@
 {
   "results" : [
-      {
+      {   
          "formatted_address" : "1130 Moro St, Manhattan, KS 66502, USA",
          "geometry" : {
             "location" : {
@@ -42,7 +42,8 @@
          "price_level" : 2,
          "rating" : 4.5,
          "reference" : "ChIJy82ouHnSvYcRXq-TAlzj_pc",
-         "types" : "mexican"
+         "types" : "mexican",
+         "tab" : 1
       },
       {
          "formatted_address" : "606 N 12th St, Manhattan, KS 66502, USA",
@@ -86,7 +87,8 @@
          "price_level" : 1,
          "rating" : 4,
          "reference" : "ChIJCS2Mo3nSvYcRVgZwjfeLmxI",
-         "types" : "mexican"
+         "types" : "mexican",
+         "tab" : 2
       },
       {
          "formatted_address" : "1116 Moro St, Manhattan, KS 66502, USA",
@@ -129,7 +131,8 @@
          },
          "rating" : 4.1,
          "reference" : "ChIJ5TOx7HnSvYcR4gqSdsZAuDw",
-         "types" : "mexican"
+         "types" : "mexican",
+         "tab" : 3
       },
       {
          "formatted_address" : "505 Tuttle Creek Blvd, Manhattan, KS 66502, USA",
@@ -173,7 +176,8 @@
          "price_level" : 2,
          "rating" : 4.1,
          "reference" : "ChIJRynAF2fSvYcRsvbwvsyayTs",
-         "types" : "steakhouse"
+         "types" : "steakhouse",
+         "tab" : 4
       },
       {
          "formatted_address" : "200 Manhattan Town Center, Manhattan, KS 66502, USA",
@@ -217,7 +221,8 @@
          "price_level" : 2,
          "rating" : 4.5,
          "reference" : "ChIJc9iNTvXSvYcR4qzUHo8_xE0",
-         "types" : "steakhouse"
+         "types" : "steakhouse",
+         "tab" : 5
       },
       {
          "formatted_address" : "1120 Moro St, Manhattan, KS 66502, USA",
@@ -261,7 +266,8 @@
          "price_level" : 2,
          "rating" : 4.1,
          "reference" : "ChIJS0Ky6nnSvYcRcepzB4trNhw",
-         "types" : [ "restaurant", "point_of_interest", "food", "establishment" ]
+         "types" : "chinese",
+         "tab" : 6
       },
       {
          "formatted_address" : "702 N 11th St, Manhattan, KS 66502, USA",
@@ -301,7 +307,8 @@
          "price_level" : 2,
          "rating" : 4,
          "reference" : "ChIJvdgZIHrSvYcRtJr-yQVg8Bk",
-         "types" : "chinese"
+         "types" : "chinese",
+         "tab" : 7
       },
       {
          "formatted_address" : "1112 Moro St, Manhattan, KS 66502, USA",
@@ -345,7 +352,8 @@
          "price_level" : 1,
          "rating" : 3.3,
          "reference" : "ChIJN1eAlHnSvYcRwYiOFPhYK1M",
-         "types" : "chinese"
+         "types" : "chinese",
+         "tab" : 8
       }
       ,
       {
@@ -386,7 +394,8 @@
          "price_level" : 1,
          "rating" : 3.8,
          "reference" : "ChIJNwksJGfSvYcRINFWSfRaxP8",
-         "types" : "chinese"
+         "types" : "chinese",
+         "tab" : 9
       },
       {
          "formatted_address" : "405 Poyntz Ave, Manhattan, KS 66502, USA",
@@ -430,7 +439,8 @@
          "price_level" : 2,
          "rating" : 4.3,
          "reference" : "ChIJVXr3imHSvYcRIM4qNK1y9F8",
-         "types" : "italian"
+         "types" : "italian",
+         "tab" : 10
       },
       {
          "formatted_address" : "715 Tuttle Creek Blvd, Manhattan, KS 66502, USA",
@@ -474,7 +484,8 @@
          "price_level" : 2,
          "rating" : 4.3,
          "reference" : "ChIJ8fxoqGfSvYcRtsn5AZSSLjo",
-         "types" : "italian"
+         "types" : "italian",
+         "tab" : 11
       },
       {
          "formatted_address" : "1102 Laramie St, Manhattan, KS 66502, USA",
@@ -518,7 +529,8 @@
          "price_level" : 2,
          "rating" : 3.8,
          "reference" : "ChIJ1d-seHnSvYcR33uEofhkJak",
-         "types" : "pizza"
+         "types" : "pizza",
+         "tab" : 12
       },
       {
          "formatted_address" : "301 Poyntz Ave, Manhattan, KS 66502, USA",
@@ -562,7 +574,8 @@
          "price_level" : 2,
          "rating" : 4.4,
          "reference" : "ChIJwfqPuGHSvYcRmFuTnkVFVYA",
-         "types" : "pizza"
+         "types" : "pizza",
+         "tab" : 13
       },
       {
          "formatted_address" : "623 N Manhattan Ave, Manhattan, KS 66502, USA",
@@ -606,7 +619,8 @@
          "price_level" : 1,
          "rating" : 4.3,
          "reference" : "ChIJgwkoOXjSvYcRS_BeHikxE_Y",
-         "types" : "pizza"
+         "types" : "pizza",
+         "tab" : 14
       },
       {
          "formatted_address" : "1800 Claflin Rd, Manhattan, KS 66502, USA",
@@ -650,7 +664,8 @@
          "price_level" : 1,
          "rating" : 4.1,
          "reference" : "ChIJy7gZwo3NvYcRmcmSZOuwq48",
-         "types" : "pizza"
+         "types" : "pizza",
+         "tab" : 15
       }
     ]
 }

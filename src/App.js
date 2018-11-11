@@ -40,6 +40,7 @@ class App extends Component {
     	}),
 			initialized: true
 		}))
+		
   	}
 
   	//Gets the list of restaurants from JSON file and saves it to the constructor props.
@@ -132,7 +133,7 @@ class App extends Component {
 		.then(function(businessInfo){
 			app.openInfoWindow(marker, businessInfo)
 		})
-		.catch(e => console.log('There was an error: ' +e))
+		.catch(e => window.alert('There has been a problem loading the Yelp API'))
   	}
 
   	//Function to handle what happens when the hamburger menu is clicked.
@@ -171,7 +172,7 @@ class App extends Component {
           			</select>
         			<div id='menuList'>
         				{this.restaurants !== undefined && this.restaurants.map((restaurant) =>
-        					<div key={restaurant.id} onClick={() => (this.createAndOpenInfoWindow(restaurant))}>
+        					<div key={restaurant.id} tabIndex={restaurant.tab} aria-label={restaurant.name} onKeyPress={(e) => (e.keyCode === 0) && (this.createAndOpenInfoWindow(restaurant))} onClick={() => (this.createAndOpenInfoWindow(restaurant))}>
         						{this.state.initialized && this.dropMarker(restaurant)}
         						<hr />
         						<h5 id={restaurant.id} >{restaurant.name}</h5>
@@ -192,6 +193,7 @@ function loadScript(url) {
   script.src = url
   script.async = true
   script.defer = true
+  script.onerror = function(){window.alert('There has been a problem loading Google Maps')}
   index.parentNode.insertBefore(script, index)
 }
 
