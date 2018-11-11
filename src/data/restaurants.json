@@ -346,7 +346,8 @@
          "rating" : 3.3,
          "reference" : "ChIJN1eAlHnSvYcRwYiOFPhYK1M",
          "types" : "chinese"
-      },
+      }
+      ,
       {
          "formatted_address" : "421 Tuttle Creek Blvd, Manhattan, KS 66502, USA",
          "geometry" : {
