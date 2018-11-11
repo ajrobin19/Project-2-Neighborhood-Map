@@ -122,6 +122,16 @@ class App extends Component {
   		var marker = this.getMarker(restaurant)
   		var app = this
 
+  		 // function toggleBounce() {
+     //    if (marker.getAnimation() !== null) {
+     //      marker.setAnimation(null);
+     //    } else {
+     //      marker.setAnimation(google.maps.Animation.BOUNCE);
+     //    }
+     //  }
+      	marker.setAnimation(window.google.maps.Animation.BOUNCE)
+      	setTimeout(function(){marker.setAnimation(null)}, 1000)
+
 		const apiKey = "qRuURpX1yy2KItA1p3K4daciEhOhqRNKKqxCR72jVjGvDZkJGoUls2-sjLfS8JXzPRIlKqIATD2nNqZDg3Jl-fZGhQNcOTlyP6LI28T8-MTAxJb2wuTYixTd6HHmW3Yx";
 		let myHeaders = new Headers();
 		myHeaders.append("Authorization", "Bearer " + apiKey);
