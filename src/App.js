@@ -16,7 +16,7 @@ class App extends Component {
 		this.restaurants = []
 		this.completeRestaurantsList = []
 		this.markers = []
-
+		this.infoWindow = ''
 	}
 
 	//This calls for the map to be rendered and grabs the list of restaurants.
@@ -40,7 +40,7 @@ class App extends Component {
     	}),
 			initialized: true
 		}))
-		
+		this.infoWindow = new window.google.maps.InfoWindow()
   	}
 
   	//Gets the list of restaurants from JSON file and saves it to the constructor props.
@@ -104,33 +104,28 @@ class App extends Component {
 
   	//Sets and opens the info window for the restaurant that has been chosen.
   	openInfoWindow = (marker, businessInfo) => {
-  		var infoWindow = new window.google.maps.InfoWindow({
-				content: `<div className='infoWindow'>
+  		this.infoWindow.setContent(
+  				`<div className='infoWindow'>
 				<h2 class='centerText'>${businessInfo.name}</h2>
 				<p><b>Address: </b>${businessInfo.location.display_address[0]}, ${businessInfo.location.display_address[1]}</p>
 				<p><b>Phone: </b>${businessInfo.display_phone}</p>
 				<p><b>Yelp Rating: </b>${businessInfo.rating} stars from ${businessInfo.review_count} reviews</p>
 				<p><b>Yelp Website: </b><a href='${businessInfo.url}' target='_blank'>${businessInfo.name}</a></p>
 				</div>`
-			})
-
-  		infoWindow.open(this.state.map, marker)
+			)
+  		this.infoWindow.open(this.state.map, marker)
   	}
 
-  	//Gathers all of the information for the info window. Fetches the restraunt information through the Yelp API. Sends it all to the openInfoWindow function to complete the process.
+  	//Pops up a loading info window and gathers all of the information for the info window. Fetches the restraunt information through the Yelp API. Sends it all to the openInfoWindow function to complete the process.
   	createAndOpenInfoWindow = (restaurant) => {
   		var marker = this.getMarker(restaurant)
   		var app = this
 
-  		 // function toggleBounce() {
-     //    if (marker.getAnimation() !== null) {
-     //      marker.setAnimation(null);
-     //    } else {
-     //      marker.setAnimation(google.maps.Animation.BOUNCE);
-     //    }
-     //  }
       	marker.setAnimation(window.google.maps.Animation.BOUNCE)
       	setTimeout(function(){marker.setAnimation(null)}, 1000)
+
+  		this.infoWindow.setContent(`<div>Loading...</div>`)
+  		this.infoWindow.open(this.state.map, marker)
 
 		const apiKey = "qRuURpX1yy2KItA1p3K4daciEhOhqRNKKqxCR72jVjGvDZkJGoUls2-sjLfS8JXzPRIlKqIATD2nNqZDg3Jl-fZGhQNcOTlyP6LI28T8-MTAxJb2wuTYixTd6HHmW3Yx";
 		let myHeaders = new Headers();
@@ -203,7 +198,7 @@ function loadScript(url) {
   script.src = url
   script.async = true
   script.defer = true
-  script.onerror = function(){window.alert('There has been a problem loading Google Maps')}
+  script.onerror = alert('There has been a problem loading Google Maps')
   index.parentNode.insertBefore(script, index)
 }
 
