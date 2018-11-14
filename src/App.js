@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import jsonData from '../src/data/restaurants.json';
+import {DebounceInput} from 'react-debounce-input'
 import './App.css';
 
 class App extends Component {
@@ -17,12 +18,13 @@ class App extends Component {
 		this.completeRestaurantsList = []
 		this.markers = []
 		this.infoWindow = ''
+		this.bounds = ''
 	}
 
 	//This calls for the map to be rendered and grabs the list of restaurants.
   	componentWillMount() {
 	    this.renderMap()
-	    this.getRestaurants()
+	    // this.getRestaurants()
   	}
 
   	//Gets the map and calls the function to initialize it.
@@ -36,19 +38,47 @@ class App extends Component {
   	initMap = () => {
     	this.setState(() => ({map : new window.google.maps.Map(document.getElementById('map'), {
      		center: {lat: 39.1836, lng: -96.5717},
-      		zoom: 15
+      		zoom: 15,
+      		mapTypeControlOptions: {
+              style: window.google.maps.MapTypeControlStyle.HORIZONTAL_BAR,
+              position: window.google.maps.ControlPosition.TOP_CENTER
+          	}
     	}),
 			initialized: true
 		}))
 		this.infoWindow = new window.google.maps.InfoWindow()
+		this.bounds = new window.google.maps.LatLngBounds()
   	}
 
   	//Gets the list of restaurants from JSON file and saves it to the constructor props.
   	getRestaurants = () => {
-		jsonData.results.map((restaurant) => {
+		jsonData.results.forEach((restaurant) => {
 			this.restaurants.push(restaurant)
 			this.completeRestaurantsList.push(restaurant)
 		})
+  	}
+
+  	getPlaces = () => {
+  		if(this.markers.length !== 0){
+  			this.removeMarkers()
+  			this.bounds = new window.google.maps.LatLngBounds()
+  		}
+
+  		const self = this
+
+		const input = document.getElementById('placesSearch').value;
+		const proxyurl = "https://cors-anywhere.herokuapp.com/"
+		const url = "https://maps.googleapis.com/maps/api/place/textsearch/json?query=" +input +"&location=39.1836,-96.5717&radius=100&key=AIzaSyB9R7iubdV_Xn3N9A8m_90v-0SyYZ4DhUg"
+		fetch(proxyurl + url) // https://cors-anywhere.herokuapp.com/https://example.com
+		.then(response => response.json())
+		.then(function(contents){
+			contents.results.forEach((restaurant) => {
+				self.restaurants.push(restaurant)
+				self.completeRestaurantsList.push(restaurant)
+			})
+			self.setState(() => ({refresh:'yes'}))
+		})
+		.catch((e) => console.log(e))
   	}
 
   	//Removes the markers from the map and erases the array.
@@ -58,6 +88,9 @@ class App extends Component {
         }
 
         this.markers = []
+        this.restaurants = []
+
+        this.setState(() => ({refresh:'yes'}))
   	}
 
   	//Filters the list of restaurants and the markers according to the filter value.
@@ -78,6 +111,7 @@ class App extends Component {
   	//Places the markers on the map
   	dropMarker = (restaurant) => {
   		var map = this.state.map
+  		var bounds = this.bounds
 
   		var marker = new window.google.maps.Marker({
 	    	map: map,
@@ -86,6 +120,9 @@ class App extends Component {
     		animation: window.google.maps.Animation.DROP,
     		id: restaurant.id
 		});
+
+		bounds.extend(marker.position)
+		map.fitBounds(bounds)
 
   		this.markers.push(marker)
 
@@ -106,11 +143,11 @@ class App extends Component {
   	openInfoWindow = (marker, businessInfo) => {
   		this.infoWindow.setContent(
   				`<div className='infoWindow'>
-				<h2 class='centerText'>${businessInfo.name}</h2>
-				<p><b>Address: </b>${businessInfo.location.display_address[0]}, ${businessInfo.location.display_address[1]}</p>
-				<p><b>Phone: </b>${businessInfo.display_phone}</p>
-				<p><b>Yelp Rating: </b>${businessInfo.rating} stars from ${businessInfo.review_count} reviews</p>
-				<p><b>Yelp Website: </b><a href='${businessInfo.url}' target='_blank'>${businessInfo.name}</a></p>
+					<h2 class='centerText'>${businessInfo.name}</h2>
+					<p><b>Address: </b>${businessInfo.location.display_address[0]}, ${businessInfo.location.display_address[1]}</p>
+					<p><b>Phone: </b>${businessInfo.display_phone}</p>
+					<p><b>Yelp Rating: </b>${businessInfo.rating} stars from ${businessInfo.review_count} reviews</p>
+					<p><b>Yelp Website: </b><a href='${businessInfo.url}' target='_blank'>${businessInfo.name}</a></p>
 				</div>`
 			)
   		this.infoWindow.open(this.state.map, marker)
@@ -119,9 +156,15 @@ class App extends Component {
   	//Pops up a loading info window and gathers all of the information for the info window. Fetches the restraunt information through the Yelp API. Sends it all to the openInfoWindow function to complete the process.
   	createAndOpenInfoWindow = (restaurant) => {
   		var marker = this.getMarker(restaurant)
+  		var bounds = new window.google.maps.LatLngBounds()
+  		var map = this.state.map
   		var app = this
 
-      	marker.setAnimation(window.google.maps.Animation.BOUNCE)
+  		bounds.extend(marker.position)
+		map.fitBounds(bounds)
+		map.setZoom(18)
+
+  		marker.setAnimation(window.google.maps.Animation.BOUNCE)
       	setTimeout(function(){marker.setAnimation(null)}, 1000)
 
   		this.infoWindow.setContent(`<div>Loading...</div>`)
@@ -132,26 +175,29 @@ class App extends Component {
 		myHeaders.append("Authorization", "Bearer " + apiKey);
 		const proxyUrl = "https://cors-anywhere.herokuapp.com/"
 
-		fetch(proxyUrl +"https://api.yelp.com/v3/businesses/search?location=66502&term=" +restaurant.name, {headers: myHeaders})
+		fetch(proxyUrl +"https://api.yelp.com/v3/businesses/search?location=" +restaurant.formatted_address +"&term=" +restaurant.name, {headers: myHeaders})
 		.then(response => response.json())
 		.then(businessIdArray => businessIdArray.businesses[0])
 		.then(function(businessInfo){
 			app.openInfoWindow(marker, businessInfo)
 		})
-		.catch(e => window.alert('There has been a problem loading the Yelp API'))
+		.catch(function(){
+			app.infoWindow.setContent(`<div>Our apologies. An error occured when loading the information for this location.</div>`)
+  			app.infoWindow.open(app.state.map, marker)
+		})
   	}
 
   	//Function to handle what happens when the hamburger menu is clicked.
   	hamburgerClick = () => {
   		var menuContainter = document.getElementById('menuContainter')
 
-  		if(menuContainter.style.display === 'none'){
-  			menuContainter.style.display = 'block'
-  			document.getElementById('menu').style.width = "20vw";
+  		if(menuContainter.style.visibility === 'hidden'){
+  			menuContainter.style.visibility = 'visible'
+  			document.getElementById('menu').style.width = "20vw"
   		}
   		else{
-  			menuContainter.style.display = 'none'
-  			document.getElementById('menu').style.width = "50px";
+  			menuContainter.style.visibility = 'hidden'
+  			document.getElementById('menu').style.width = "45px"
   		}
 	}
 
@@ -164,27 +210,19 @@ class App extends Component {
 	        			<div className='hamburger'></div>
 	        			<div className='hamburger'></div>
 	    			</div>
-        		<div id="menuContainter">
-        			<h4 className='filterBusinesses'>Filter Businesses</h4>
-        			<select id='filter' value='filter' onChange={this.filterRestaurants}>
-            			<option value="filter" disabled>Choose Filter...</option>
-            			<option value="mexican">Mexican Cuisine</option>
-            			<option value="chinese">Chinese Cuisine</option>
-            			<option value="italian">Italian Cuisine</option>
-            			<option value="steakhouse">Steakhouse</option>
-            			<option value="pizza">Pizza</option>
-            			<option value="none">None</option>
-          			</select>
-        			<div id='menuList'>
-        				{this.restaurants !== undefined && this.restaurants.map((restaurant) =>
-        					<div key={restaurant.id} tabIndex={restaurant.tab} aria-label={restaurant.name} onKeyPress={(e) => (e.keyCode === 0) && (this.createAndOpenInfoWindow(restaurant))} onClick={() => (this.createAndOpenInfoWindow(restaurant))}>
-        						{this.state.initialized && this.dropMarker(restaurant)}
-        						<hr />
-        						<h5 id={restaurant.id} >{restaurant.name}</h5>
-        					</div>
-        				)}
-        			</div>
-          		</div>
+	        		<div id="menuContainter">
+	        			<h4 className='searchBusinesses'>Search for Businesses</h4>
+	        			<DebounceInput type="text" id="placesSearch" minLength={1} debounceTimeout={1000} placeholder="Search" onChange={this.getPlaces}/>
+	        			<div id='menuList'>
+	        				{this.restaurants !== undefined && this.restaurants.map((restaurant) =>
+	        					<div key={restaurant.id} tabIndex={restaurant.tab} aria-label={restaurant.name} onKeyPress={(e) => (e.keyCode === 0) && (this.createAndOpenInfoWindow(restaurant))} onClick={() => (this.createAndOpenInfoWindow(restaurant))}>
+	        						{this.state.initialized && this.dropMarker(restaurant)}
+	        						<hr />
+	        						<h5 id={restaurant.id} >{restaurant.name}</h5>
+	        					</div>
+	        				)}
+	        			</div>
+	          		</div>
         		</div>
         		<div id="map"></div>
       		</main>
@@ -198,7 +236,7 @@ function loadScript(url) {
   script.src = url
   script.async = true
   script.defer = true
-  script.onerror = alert('There has been a problem loading Google Maps')
+  script.onerror = function(){window.alert('There has been a problem loading Google Maps')}
   index.parentNode.insertBefore(script, index)
 }
 
