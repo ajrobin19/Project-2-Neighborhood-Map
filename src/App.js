@@ -193,7 +193,12 @@ class App extends Component {
 
   		if(menuContainter.style.visibility === 'hidden'){
   			menuContainter.style.visibility = 'visible'
-  			document.getElementById('menu').style.width = "20vw"
+  			if(window.innerWidth >= 749){
+  				document.getElementById('menu').style.width = "20vw"
+  			}else{
+  				document.getElementById('menu').style.width = "60vw"
+  			}
+  			
   		}
   		else{
   			menuContainter.style.visibility = 'hidden'

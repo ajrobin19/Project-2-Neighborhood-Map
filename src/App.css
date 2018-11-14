@@ -92,11 +92,15 @@ Screen Breaks
 */
 @media screen and (max-width:749px){
   main{
-    font-size: small;
+    font-size: smaller;
   }
 
   .hamburger{
     display: block;
+  }
+
+  #menu{
+    width: 60vw;
   }
 
 }
