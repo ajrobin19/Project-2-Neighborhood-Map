@@ -215,7 +215,7 @@ class App extends Component {
 	        			<DebounceInput type="text" id="placesSearch" minLength={1} debounceTimeout={1000} placeholder="Search" onChange={this.getPlaces}/>
 	        			<div id='menuList'>
 	        				{this.restaurants !== undefined && this.restaurants.map((restaurant) =>
-	        					<div key={restaurant.id} tabIndex={restaurant.tab} aria-label={restaurant.name} onKeyPress={(e) => (e.keyCode === 0) && (this.createAndOpenInfoWindow(restaurant))} onClick={() => (this.createAndOpenInfoWindow(restaurant))}>
+	        					<div key={restaurant.id} tabIndex={0} aria-label={restaurant.name} onKeyPress={(e) => (e.keyCode === 0) && (this.createAndOpenInfoWindow(restaurant))} onClick={() => (this.createAndOpenInfoWindow(restaurant))}>
 	        						{this.state.initialized && this.dropMarker(restaurant)}
 	        						<hr />
 	        						<h5 id={restaurant.id} >{restaurant.name}</h5>
