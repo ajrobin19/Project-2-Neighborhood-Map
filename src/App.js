@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import jsonData from '../src/data/restaurants.json';
-import {DebounceInput} from 'react-debounce-input'
 import './App.css';
 
 class App extends Component {
@@ -19,6 +18,7 @@ class App extends Component {
 		this.markers = []
 		this.infoWindow = ''
 		this.bounds = ''
+		this.autocomplete = ''
 	}
 
 	//This calls for the map to be rendered and grabs the list of restaurants.
@@ -48,6 +48,14 @@ class App extends Component {
 		}))
 		this.infoWindow = new window.google.maps.InfoWindow()
 		this.bounds = new window.google.maps.LatLngBounds()
+		
+		var self = this
+		this.autocomplete = new window.google.maps.places.Autocomplete(document.getElementById('placesSearch'))
+		this.autocomplete.bindTo('bounds', this.state.map)
+        this.autocomplete.setFields(['address_components', 'geometry', 'icon', 'name'])
+        this.autocomplete.addListener('place_changed', function() {
+        	self.getPlaces()
+		})
   	}
 
   	//Gets the list of restaurants from JSON file and saves it to the constructor props.
@@ -93,21 +101,6 @@ class App extends Component {
         this.setState(() => ({refresh:'yes'}))
   	}
 
-  	//Filters the list of restaurants and the markers according to the filter value.
-  	filterRestaurants = () => {
-  		this.removeMarkers()
-
-  		this.restaurants = this.completeRestaurantsList
-
-  		var filterCategory = document.getElementById('filter').value
-
-  		if(filterCategory !== 'none'){
-  			this.restaurants = this.restaurants.filter(restaurant => restaurant.types === filterCategory)
-  		}
-
-  		this.setState(() => ({refresh:'yes'}))
-  	}
-
   	//Places the markers on the map
   	dropMarker = (restaurant) => {
   		var map = this.state.map
@@ -123,6 +116,9 @@ class App extends Component {
 
 		bounds.extend(marker.position)
 		map.fitBounds(bounds)
+		if(map.getZoom() > 16){
+			map.setZoom(16)
+		}
 
   		this.markers.push(marker)
 
@@ -162,7 +158,7 @@ class App extends Component {
 
   		bounds.extend(marker.position)
 		map.fitBounds(bounds)
-		map.setZoom(18)
+		map.setZoom(16)
 
   		marker.setAnimation(window.google.maps.Animation.BOUNCE)
       	setTimeout(function(){marker.setAnimation(null)}, 1000)
@@ -217,7 +213,10 @@ class App extends Component {
 	    			</div>
 	        		<div id="menuContainter">
 	        			<h4 className='searchBusinesses'>Search for Businesses</h4>
-	        			<DebounceInput type="text" id="placesSearch" minLength={1} debounceTimeout={1000} placeholder="Search" onChange={this.getPlaces}/>
+	        			<div className='form'>
+	        				<input type="text" id="placesSearch" placeholder="Search" onKeyPress={(e) => (e.keyCode === 13) && (this.getPlaces)} />
+	        				<button className="submit" onClick={this.getPlaces}> Submit </button>
+						</div>
 	        			<div id='menuList'>
 	        				{this.restaurants !== undefined && this.restaurants.map((restaurant) =>
 	        					<div key={restaurant.id} tabIndex={0} aria-label={restaurant.name} onKeyPress={(e) => (e.keyCode === 0) && (this.createAndOpenInfoWindow(restaurant))} onClick={() => (this.createAndOpenInfoWindow(restaurant))}>
