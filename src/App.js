@@ -81,8 +81,16 @@ class App extends Component {
 		.then(response => response.json())
 		.then(function(contents){
 			contents.results.forEach((restaurant) => {
-				self.restaurants.push(restaurant)
-				self.completeRestaurantsList.push(restaurant)
+        var repeat = false
+
+        if(self.restaurants.length > 0){
+          self.restaurants.forEach(item => {if(item.id === restaurant.id){repeat = true}})
+        }
+
+        if(!repeat){
+          self.restaurants.push(restaurant)
+				  self.completeRestaurantsList.push(restaurant)
+        }
 			})
 			self.setState(() => ({refresh:'yes'}))
 		})
