@@ -82,7 +82,8 @@ Menu
 }
 
 #placesSearch{
-  width: 70%;
+  width: 90%;
+  max-width: 200px;
 }
 
 .form{
@@ -128,20 +129,13 @@ Screen Breaks
     font-size: smaller;
   }
 
-  .hamburger{
-    display: block;
-  }
-
   #menu{
-    width: 60vw;
+    width: 65vw;
   }
-
 }
+
 @media screen and (min-width:750px){
   main{
-    font-size: initial;
-  }
-  .infoWindow{
     font-size: initial;
   }
 }

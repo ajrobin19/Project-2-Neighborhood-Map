@@ -202,7 +202,7 @@ class App extends Component {
   			if(window.innerWidth >= 749){
   				document.getElementById('menu').style.width = "20vw"
   			}else{
-  				document.getElementById('menu').style.width = "60vw"
+  				document.getElementById('menu').style.width = "65vw"
   			}
   			
   		}
@@ -225,10 +225,9 @@ class App extends Component {
   	        			<div className='hamburger'></div>
   	    			  </div>
                 <div id='search'>
-                  <h4 className='searchBusinesses'>Search for Businesses</h4>
+                  <h4 className='searchBusinesses'>Search</h4>
                   <div className='form'>
-                    <input type="text" id="placesSearch" placeholder="Search" onKeyPress={(e) => (e.keyCode === 13) && (this.getPlaces)} />
-                    <button className="submit" onClick={this.getPlaces}> Submit </button>
+                    <input type="text" id="placesSearch" placeholder="Search for Businesses" onKeyPress={(e) => (e.keyCode === 13) && (this.getPlaces)} />
                   </div>
                 </div>
               </div>
