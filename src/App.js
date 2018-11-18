@@ -197,6 +197,8 @@ class App extends Component {
 
   		if(menuContainter.style.visibility === 'hidden'){
   			menuContainter.style.visibility = 'visible'
+        document.getElementById('search').style.visibility = 'visible'
+        document.getElementById('hamburgerSearch').style.height = "90px"
   			if(window.innerWidth >= 749){
   				document.getElementById('menu').style.width = "20vw"
   			}else{
@@ -206,7 +208,9 @@ class App extends Component {
   		}
   		else{
   			menuContainter.style.visibility = 'hidden'
+        document.getElementById('search').style.visibility = 'hidden'
   			document.getElementById('menu').style.width = "45px"
+        document.getElementById('hamburgerSearch').style.height = "50px"
   		}
 	}
 
@@ -220,23 +224,22 @@ class App extends Component {
   	        			<div className='hamburger'></div>
   	        			<div className='hamburger'></div>
   	    			  </div>
-  	        		<div id="menuContainter">
-  	        			<h4 className='searchBusinesses'>Search for Businesses</h4>
-  	        			<div className='form'>
-  	        				<input type="text" id="placesSearch" placeholder="Search" onKeyPress={(e) => (e.keyCode === 13) && (this.getPlaces)} />
-  	        				<button className="submit" onClick={this.getPlaces}> Submit </button>
-  						    </div>
+                <div id='search'>
+                  <h4 className='searchBusinesses'>Search for Businesses</h4>
+                  <div className='form'>
+                    <input type="text" id="placesSearch" placeholder="Search" onKeyPress={(e) => (e.keyCode === 13) && (this.getPlaces)} />
+                    <button className="submit" onClick={this.getPlaces}> Submit </button>
+                  </div>
                 </div>
               </div>
-        			<div id='menuList'>
-        				{this.restaurants !== undefined && this.restaurants.map((restaurant) =>
-        					<div key={restaurant.id} tabIndex={0} aria-label={restaurant.name} onKeyPress={(e) => (e.keyCode === 0) && (this.createAndOpenInfoWindow(restaurant))} onClick={() => (this.createAndOpenInfoWindow(restaurant))}>
-        						{this.state.initialized && this.dropMarker(restaurant)}
-        						<hr />
-        						<h5 id={restaurant.id} >{restaurant.name}</h5>
-        					</div>
-          			)}
-          		</div>
+  	        	<div id="menuContainter">
+  	        		{this.restaurants !== undefined && this.restaurants.map((restaurant) =>
+                  <div key={restaurant.id} className='restaurantListing' tabIndex={0} aria-label={restaurant.name} onKeyPress={(e) => (e.keyCode === 0) && (this.createAndOpenInfoWindow(restaurant))} onClick={() => (this.createAndOpenInfoWindow(restaurant))}>
+                    {this.state.initialized && this.dropMarker(restaurant)}
+                    <h5 id={restaurant.id} >{restaurant.name}</h5>
+                  </div>
+                )}	
+              </div>
           	</div>
         		<div id="map"></div>
       		</main>

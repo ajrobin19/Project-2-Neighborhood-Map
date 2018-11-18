@@ -20,32 +20,52 @@ Menu
 */
 #menuContainter {
   width: 100%;
-  height: calc(100vh - 40px);
+  height: calc(100vh - 90px);
   border-radius: 3px;
   line-height: 35px;
-  padding: 10px 10px 30px 10px;
+  padding: 10px 0px 0px 0px;
   color: #D0D7D9;
-  text-align: left;
+  text-align: center;
   overflow-y: auto;
   display: block;
   z-index: 3;
+}
+
+::-webkit-scrollbar-track {
+  background: rgba(0, 0, 0, 0.0); 
+}
+
+.restaurantListing{
+  background: rgba(0, 0, 0, 0.8);
+  border-radius: 10px;
+}
+
+.restaurantListing :hover{
+  cursor: pointer;
 }
 
 #menu{
   position: absolute;
   top: 0px;
   left: 0px;
-  background: rgba(0, 0, 0, 0.8);
   width: 20vw;
   z-index: 2;
 }
 
-#menuList div :hover{
-  cursor: pointer;
+#hamburgerSearch{
+  color: #D0D7D9;
+  background: rgba(0, 0, 0, 0.8);
+  height: 90px;
+  border-radius: 5px;
+}
+
+#search{
+  padding-left: 5px;
 }
 
 #hamburgerButton{
   position: absolute;
+  top: 5px;
   right: 5px;
 }
 
@@ -57,7 +77,8 @@ Menu
 }
 
 .searchBusinesses{
-  margin: 40px auto 0 auto;
+  margin: auto auto 0 auto;
+  padding-top: 40px;
 }
 
 #placesSearch{
@@ -78,7 +99,9 @@ Map
 */
 #map {
   height: 100vh;
+  max-height: 100vh;
   width: 100vw;
+  max-width: 100vw;
 }
 
 /*
